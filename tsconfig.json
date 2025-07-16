@@ -23,6 +23,12 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@env/env": [
+        "libs/env/src"
+      ],
+      "@env/env/*": [
+        "libs/env/src/*"
       ]
     }
   }
