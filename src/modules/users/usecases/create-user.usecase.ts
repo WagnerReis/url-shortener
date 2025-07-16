@@ -1,3 +1,4 @@
+import { HashGenerator } from '@/core/cryptography/hash-generator';
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
 import { User } from '../entities/user.entity';
@@ -14,7 +15,10 @@ type CreateUserResponse = Either<UserAlreadyExistsError, { user: User }>;
 
 @Injectable()
 export class CreateUserUseCase {
-  constructor(private userRepository: UserRepositoryInterface) {}
+  constructor(
+    private userRepository: UserRepositoryInterface,
+    private hasher: HashGenerator,
+  ) {}
 
   async execute(data: CreateUserRequest): Promise<CreateUserResponse> {
     const { name, email, password } = data;
@@ -25,11 +29,12 @@ export class CreateUserUseCase {
       return left(new UserAlreadyExistsError());
     }
 
-    // TODO: Hash password before saving it on database
+    const hashedPassword = await this.hasher.hash(password);
+
     const user = User.create({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
     await this.userRepository.create(user);
