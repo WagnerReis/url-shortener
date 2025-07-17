@@ -5,7 +5,7 @@ interface UserProps {
   name: string;
   email: string;
   password: string;
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
 }
 
@@ -34,6 +34,7 @@ export class User extends Entity<UserProps> {
     const user = new User(
       {
         ...props,
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     );
