@@ -20,6 +20,12 @@ export class InMemoryShortUrlRepository implements ShortUrlRepositoryInterface {
     return Promise.resolve(shortUrl);
   }
 
+  async findByUserId(userId: string): Promise<ShortUrl[]> {
+    const shortUrls = this.shortUrls.filter((item) => item.userId === userId);
+
+    return Promise.resolve(shortUrls);
+  }
+
   async save(shortUrl: ShortUrl): Promise<void> {
     const index = this.shortUrls.findIndex((item) => item.id === shortUrl.id);
 
