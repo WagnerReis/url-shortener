@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/WagnerReis/url-shortener/compare/v0.0.3...v0.1.0) (2025-07-17)
+
+
+### Features
+
+* **auth:** add SignInUseCase for user authentication ([183fd4b](https://github.com/WagnerReis/url-shortener/commit/183fd4bc42370fe0502a51e5ed5ed29010514763))
+* **auth:** add UnauthorizedError class ([a47260c](https://github.com/WagnerReis/url-shortener/commit/a47260c897be66fd4ec072e24b83a1fd7e47ca66))
+* **auth:** implement authentication module and JWT strategy ([acb79fa](https://github.com/WagnerReis/url-shortener/commit/acb79fa7834d53d5d8ca30389d5e7d2bd89bdfe2))
+* **cryptography:** enable JWT encrypter in module ([4911dfa](https://github.com/WagnerReis/url-shortener/commit/4911dfa36765b3dde80012e49cea838478f4e049))
+* **error-handling:** implement HttpExceptionFilter and enhance server bootstrap ([4e4ad5a](https://github.com/WagnerReis/url-shortener/commit/4e4ad5abb1a6fa604a82793cb2d27c5e3c28850c))
+* **users:** add logging and error handling to user creation ([6a40ad6](https://github.com/WagnerReis/url-shortener/commit/6a40ad617865fd6e9505e5683e127f7f5acbd6f9))
+
 ### [0.0.3](https://github.com/WagnerReis/url-shortener/compare/v0.0.2...v0.0.3) (2025-07-17)
 
 ### 0.0.2 (2025-07-17)
