@@ -1,6 +1,6 @@
 import { InMemoryShortUrlRepository } from 'test/repositories/in-memory-short-url.repository';
 import { ShortUrl } from '../entities/short-url.entity';
-import { ShortUrlRepositoryInterface } from '../repositories/shor-url-repository.interface';
+import { ShortUrlRepositoryInterface } from '../repositories/short-url-repository.interface';
 import { MaxRetriesGenerateCodeError } from './errors/max-retries-generate-code.error';
 import { GenerateShortCodeUseCase } from './short-code-generator.usecase';
 

@@ -1,7 +1,7 @@
 import { Either, right } from '@/core/either';
 import { Injectable, Logger } from '@nestjs/common';
 import { ShortUrl } from '../entities/short-url.entity';
-import { ShortUrlRepositoryInterface } from '../repositories/shor-url-repository.interface';
+import { ShortUrlRepositoryInterface } from '../repositories/short-url-repository.interface';
 
 interface ListShortUrlsUseCaseRequest {
   userId: string;

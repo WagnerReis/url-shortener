@@ -1,5 +1,5 @@
 import { ShortUrl } from '@/modules/shortener/entities/short-url.entity';
-import { ShortUrlRepositoryInterface } from '@/modules/shortener/repositories/shor-url-repository.interface';
+import { ShortUrlRepositoryInterface } from '@/modules/shortener/repositories/short-url-repository.interface';
 
 export class InMemoryShortUrlRepository implements ShortUrlRepositoryInterface {
   public shortUrls: ShortUrl[] = [];

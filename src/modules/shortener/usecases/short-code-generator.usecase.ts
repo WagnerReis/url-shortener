@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
-import { ShortUrlRepositoryInterface } from '../repositories/shor-url-repository.interface';
+import { ShortUrlRepositoryInterface } from '../repositories/short-url-repository.interface';
 import { MaxRetriesGenerateCodeError } from './errors/max-retries-generate-code.error';
 
 type GenerateShortCodeUseCaseResponse = Either<
