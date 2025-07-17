@@ -41,6 +41,7 @@ describe('Generate short code use case', () => {
     const spy = vi.spyOn(shortUrlRepository, 'findByShortCode');
     const shortUrl = ShortUrl.create({
       originalUrl: 'http://test.com',
+      shortCode: '123456',
     });
 
     spy.mockReturnValue(Promise.resolve(shortUrl));

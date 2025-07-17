@@ -5,8 +5,8 @@ interface ShortUrlProps {
   originalUrl: string;
   shortCode: string;
   userId?: string;
-  clickCount: number;
-  createdAt: Date;
+  clickCount?: number;
+  createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
 }
@@ -51,7 +51,7 @@ export class ShortUrl extends Entity<ShortUrlProps> {
   }
 
   addClick() {
-    this.props.clickCount += 1;
+    this.props.clickCount! += 1;
     this.props.updatedAt = new Date();
   }
 

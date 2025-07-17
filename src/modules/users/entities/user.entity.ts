@@ -5,7 +5,7 @@ interface UserProps {
   name: string;
   email: string;
   password: string;
-  createdAt: Date;
+  createdAt?: Date;
   updatedAt?: Date;
 }
 
