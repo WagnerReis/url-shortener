@@ -9,6 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { z } from 'zod';
+import { Public } from '../auth/decorators/public.decorator';
 import { UserPresenter } from './presenters/user-presenter';
 import { CreateUserUseCase } from './usecases/create-user.usecase';
 import { UserAlreadyExistsError } from './usecases/errors/user-already-exists.error';
@@ -27,6 +28,7 @@ export class UsersController {
 
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
+  @Public()
   @Post()
   @HttpCode(201)
   async create(
