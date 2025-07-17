@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/WagnerReis/url-shortener/compare/v0.1.0...v0.1.1) (2025-07-17)
+
+
+### Features
+
+* **auth:** implement global JWT auth guard and public route decorator ([c9f4c24](https://github.com/WagnerReis/url-shortener/commit/c9f4c24ffff0bf4c4438608029ef7788d6343b62))
+* **docker:** add Dockerfile and docker-compose configuration ([e3d0c2b](https://github.com/WagnerReis/url-shortener/commit/e3d0c2b3d38231b932d0fce8055c7093edc9f321))
+* **shortener:** add create-short-url usecase ([2276dc2](https://github.com/WagnerReis/url-shortener/commit/2276dc22cddfad2e765116347500a42e648924fb))
+* **shortener:** add GenerateShortCodeUseCase ([1cbf5e5](https://github.com/WagnerReis/url-shortener/commit/1cbf5e5acc7ad8d62fa712fce90f317429e4f733))
+* **shortener:** add MaxRetriesGenerateCodeError class ([8a57ad4](https://github.com/WagnerReis/url-shortener/commit/8a57ad497faf4fd82b980ea122cd2d58433c80ff))
+* **shortener:** add ShortUrl entity ([a84a2f3](https://github.com/WagnerReis/url-shortener/commit/a84a2f35c14548e84676a0f47ba3f0df01c728fa))
+* **shortener:** add ShortUrlRepositoryInterface ([260a6fc](https://github.com/WagnerReis/url-shortener/commit/260a6fc4c7ac744d105ea1b0a7c781fead508ffb))
+* **test:** add in-memory short URL repository for testing ([ddaabb3](https://github.com/WagnerReis/url-shortener/commit/ddaabb3b3475ba3ba349c7b2ef353267fb63d591))
+
 ## [0.1.0](https://github.com/WagnerReis/url-shortener/compare/v0.0.3...v0.1.0) (2025-07-17)
 
 
