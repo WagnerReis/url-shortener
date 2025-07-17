@@ -7,6 +7,15 @@
     "webpack": true
   },
   "projects": {
+    "cryptography": {
+      "type": "library",
+      "root": "libs/cryptography",
+      "entryFile": "index",
+      "sourceRoot": "libs/cryptography/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/cryptography/tsconfig.lib.json"
+      }
+    },
     "env": {
       "type": "library",
       "root": "libs/env",

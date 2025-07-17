@@ -1,8 +1,8 @@
+import { CryptographyModule } from '@app/cryptography';
 import { EnvModule, EnvService } from '@env/env';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from '@prisma-lib';
-import { CryptographyModule } from '../cryptography/cryptography.module';
 import { PrismaUserRepository } from '../users/repositories/prisma/user-repository';
 import { UserRepositoryInterface } from '../users/repositories/user-repository.interface';
 import { AuthController } from './auth.controller';

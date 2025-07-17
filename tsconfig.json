@@ -17,13 +17,31 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["vitest/globals"],
+    "types": [
+      "vitest/globals"
+    ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@env/env": ["libs/env/src"],
-      "@env/env/*": ["libs/env/src/*"],
-      "@prisma-lib": ["libs/prisma/src"],
-      "@prisma-lib/*": ["libs/prisma/src/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@app/cryptography": [
+        "libs/cryptography/src"
+      ],
+      "@app/cryptography/*": [
+        "libs/cryptography/src/*"
+      ],
+      "@env/env": [
+        "libs/env/src"
+      ],
+      "@env/env/*": [
+        "libs/env/src/*"
+      ],
+      "@prisma-lib": [
+        "libs/prisma/src"
+      ],
+      "@prisma-lib/*": [
+        "libs/prisma/src/*"
+      ]
     }
   }
 }
