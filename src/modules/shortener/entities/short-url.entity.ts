@@ -59,6 +59,7 @@ export class ShortUrl extends Entity<ShortUrlProps> {
     const shortUrl = new ShortUrl(
       {
         ...props,
+        userId: props.userId ?? '',
         clickCount: props.clickCount ?? 0,
         createdAt: props.createdAt ?? new Date(),
       },

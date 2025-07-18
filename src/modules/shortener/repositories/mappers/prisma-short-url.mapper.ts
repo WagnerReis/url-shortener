@@ -28,7 +28,7 @@ export class PrismaShortUrlMapper {
       clickCount: shortUrl.clickCount,
       createdAt: shortUrl.createdAt,
       updatedAt: shortUrl.updatedAt,
-      deletedAt: shortUrl.deletedAt || undefined,
+      ...(shortUrl.deletedAt ? { deletedAt: shortUrl.deletedAt } : {}),
     };
   }
 }
