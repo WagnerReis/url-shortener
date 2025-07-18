@@ -8,7 +8,9 @@ import {
   Logger,
   Post,
 } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { z } from 'zod';
+import { Public } from '../auth/decorators/public.decorator';
 import { UserPresenter } from './presenters/user-presenter';
 import { CreateUserUseCase } from './usecases/create-user.usecase';
 import { UserAlreadyExistsError } from './usecases/errors/user-already-exists.error';
@@ -21,14 +23,46 @@ const createUserBodySchema = z.object({
 
 type CreateUserBody = z.infer<typeof createUserBodySchema>;
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
+  @Public()
   @Post()
   @HttpCode(201)
+  @ApiOperation({ summary: 'Cria um novo usuário' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'John Doe' },
+        email: { type: 'string', format: 'email', example: 'john@email.com' },
+        password: { type: 'string', example: 'password123' },
+      },
+      required: ['name', 'email', 'password'],
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Usuário criado com sucesso',
+    schema: {
+      example: {
+        success: true,
+        message: 'User created successfully',
+        data: {
+          id: 'uuid',
+          name: 'John Doe',
+          email: 'john@email.com',
+          createdAt: '2025-07-18T00:00:00.000Z',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 409, description: 'Usuário já existe' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   async create(
     @Body(new ZodValidationPipe(createUserBodySchema)) body: CreateUserBody,
   ) {

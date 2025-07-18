@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/WagnerReis/url-shortener/compare/v0.2.1...v0.2.2) (2025-07-18)
+
+
+### Features
+
+* **swagger:** add API documentation with Swagger ([75dd21b](https://github.com/WagnerReis/url-shortener/commit/75dd21b31203fb08fbed7abd8c4f0248929d5f6c))
+* **swagger:** add Swagger documentation to API endpoints ([7042a24](https://github.com/WagnerReis/url-shortener/commit/7042a2423766786a2c45863eedc9bcca0c4346c2))
+
+### [0.2.1](https://github.com/WagnerReis/url-shortener/compare/v0.2.0...v0.2.1) (2025-07-18)
+
+
+### Features
+
+* **shortener:** add redirect controller and usecase ([851f9c1](https://github.com/WagnerReis/url-shortener/commit/851f9c1caee97190535d9beb97d38d345dfdbef8))
+* **shortener:** add RedirectShortUrlUseCase ([bd227bb](https://github.com/WagnerReis/url-shortener/commit/bd227bb01bebffb8d2d2c9104be1ee8a72b64cc6))
+
+
+### Bug Fixes
+
+* **shortener:** add deletedAt filter to findByShortCode query ([8c4cbeb](https://github.com/WagnerReis/url-shortener/commit/8c4cbeb80f0c77661790c0449e38bd2777ecbccf))
+
+## [0.2.0](https://github.com/WagnerReis/url-shortener/compare/v0.1.2...v0.2.0) (2025-07-18)
+
+
+### Features
+
+* **auth:** add CurrentUser decorator for user context extraction ([141482a](https://github.com/WagnerReis/url-shortener/commit/141482a32f2aaa762c34073a57c151651f904d57))
+* **shortener:** add delete functionality and update presenter ([edfd673](https://github.com/WagnerReis/url-shortener/commit/edfd67356b239830e8da82fe4bcafca6540da22e))
+* **shortener:** add list short URLs endpoint ([302c8d2](https://github.com/WagnerReis/url-shortener/commit/302c8d24a32d3e59eb9a178b1aa4b86405b48cfe))
+* **shortener:** add ShortererPresenter for HTTP response formatting ([590c4e3](https://github.com/WagnerReis/url-shortener/commit/590c4e3e26bdb9f4b7d69f4e99aadda897d05ea2))
+* **shortener:** add update original URL functionality ([205cfc9](https://github.com/WagnerReis/url-shortener/commit/205cfc9ac44e8493ebbb0d4891317a0e4fb3ac47))
+* **shortener:** implement short URL creation and update schema ([c9bcabc](https://github.com/WagnerReis/url-shortener/commit/c9bcabc92b6c300a14e023e0b7f1d20f2df6fb4d))
+
+
+### Bug Fixes
+
+* **shortener:** create short url with deletedAt as null, and update query to filter ([e5dde5e](https://github.com/WagnerReis/url-shortener/commit/e5dde5e827e209a7992c306dfedf13cff192fd9c))
+* **shortener:** handle optional userId in PrismaShortUrlMapper ([1f61415](https://github.com/WagnerReis/url-shortener/commit/1f61415f895c90665390666a83086f87ba465464))
+
+### [0.1.2](https://github.com/WagnerReis/url-shortener/compare/v0.1.1...v0.1.2) (2025-07-18)
+
+
+### Features
+
+* **schema:** add ShortUrl and Click models, update User model ([5214092](https://github.com/WagnerReis/url-shortener/commit/52140922438a6be94ef04f24d5ee7e1cffc7cfaa))
+* **shortener:** add list short URLs functionality ([fdd9c6e](https://github.com/WagnerReis/url-shortener/commit/fdd9c6e09671f03f39bb2992845b54495081b004))
+* **shortener:** add NotFoundError class for handling not found scenarios ([5454a99](https://github.com/WagnerReis/url-shortener/commit/5454a996de47ad8144bcc89f169a98c3e007cb2d))
+* **shortener:** add PrismaShortUrlMapper for domain-prisma conversion ([0a67709](https://github.com/WagnerReis/url-shortener/commit/0a677090cb199859a8a1d38ae1770d9c4f9bbcb7))
+* **shortener:** add UpdateOriginalUrlUseCase ([a24fdb0](https://github.com/WagnerReis/url-shortener/commit/a24fdb0042b3a3c372f2927436921455ccad8f3d))
+* **shortener:** implement PrismaShortUrlRepository ([29defef](https://github.com/WagnerReis/url-shortener/commit/29defef65a8bbaebe793dad6beed303259fe20a0))
+
+
+### Bug Fixes
+
+* **shortener:** correct typo in short-url-repository filename ([ab96e1f](https://github.com/WagnerReis/url-shortener/commit/ab96e1fd405dc8eb4538d568bf3f574fc81fc674))
+
+### [0.1.1](https://github.com/WagnerReis/url-shortener/compare/v0.1.0...v0.1.1) (2025-07-17)
+
+
+### Features
+
+* **auth:** implement global JWT auth guard and public route decorator ([c9f4c24](https://github.com/WagnerReis/url-shortener/commit/c9f4c24ffff0bf4c4438608029ef7788d6343b62))
+* **docker:** add Dockerfile and docker-compose configuration ([e3d0c2b](https://github.com/WagnerReis/url-shortener/commit/e3d0c2b3d38231b932d0fce8055c7093edc9f321))
+* **shortener:** add create-short-url usecase ([2276dc2](https://github.com/WagnerReis/url-shortener/commit/2276dc22cddfad2e765116347500a42e648924fb))
+* **shortener:** add GenerateShortCodeUseCase ([1cbf5e5](https://github.com/WagnerReis/url-shortener/commit/1cbf5e5acc7ad8d62fa712fce90f317429e4f733))
+* **shortener:** add MaxRetriesGenerateCodeError class ([8a57ad4](https://github.com/WagnerReis/url-shortener/commit/8a57ad497faf4fd82b980ea122cd2d58433c80ff))
+* **shortener:** add ShortUrl entity ([a84a2f3](https://github.com/WagnerReis/url-shortener/commit/a84a2f35c14548e84676a0f47ba3f0df01c728fa))
+* **shortener:** add ShortUrlRepositoryInterface ([260a6fc](https://github.com/WagnerReis/url-shortener/commit/260a6fc4c7ac744d105ea1b0a7c781fead508ffb))
+* **test:** add in-memory short URL repository for testing ([ddaabb3](https://github.com/WagnerReis/url-shortener/commit/ddaabb3b3475ba3ba349c7b2ef353267fb63d591))
+
 ## [0.1.0](https://github.com/WagnerReis/url-shortener/compare/v0.0.3...v0.1.0) (2025-07-17)
 
 

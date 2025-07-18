@@ -1,11 +1,12 @@
+import { CryptographyModule } from '@app/cryptography';
 import { EnvModule, EnvService } from '@env/env';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from '@prisma-lib';
-import { CryptographyModule } from '../cryptography/cryptography.module';
 import { PrismaUserRepository } from '../users/repositories/prisma/user-repository';
 import { UserRepositoryInterface } from '../users/repositories/user-repository.interface';
 import { AuthController } from './auth.controller';
+import { JwtOptionalAuthGuard } from './guards/jwt-optional-auth.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { SignInUseCase } from './usecases/sign-in.usecase';
 
@@ -30,10 +31,12 @@ import { SignInUseCase } from './usecases/sign-in.usecase';
   providers: [
     JwtStrategy,
     SignInUseCase,
+    JwtOptionalAuthGuard,
     {
       provide: UserRepositoryInterface,
       useClass: PrismaUserRepository,
     },
   ],
+  exports: [JwtOptionalAuthGuard],
 })
 export class AuthModule {}

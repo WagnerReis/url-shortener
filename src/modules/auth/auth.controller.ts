@@ -9,6 +9,7 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import z from 'zod';
 import { Public } from './decorators/public.decorator';
 import { UnauthorizedError } from './usecases/errors/unauthorized.error';
@@ -21,6 +22,7 @@ const signInBodySchema = z.object({
 
 type SignInBody = z.infer<typeof signInBodySchema>;
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly signInUseCase: SignInUseCase) {}
@@ -30,6 +32,28 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
+  @ApiOperation({ summary: 'Realiza login e retorna um accessToken' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string',
+          format: 'email',
+          example: 'usuario@email.com',
+        },
+        password: { type: 'string', minLength: 6, example: 'senha123' },
+      },
+      required: ['email', 'password'],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Login realizado com sucesso',
+    schema: { example: { accessToken: 'jwt.token.aqui' } },
+  })
+  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   async signIn(
     @Body(new ZodValidationPipe(signInBodySchema)) signInBody: SignInBody,
   ) {
