@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/WagnerReis/url-shortener/compare/v0.1.2...v0.2.0) (2025-07-18)
+
+
+### Features
+
+* **auth:** add CurrentUser decorator for user context extraction ([141482a](https://github.com/WagnerReis/url-shortener/commit/141482a32f2aaa762c34073a57c151651f904d57))
+* **shortener:** add delete functionality and update presenter ([edfd673](https://github.com/WagnerReis/url-shortener/commit/edfd67356b239830e8da82fe4bcafca6540da22e))
+* **shortener:** add list short URLs endpoint ([302c8d2](https://github.com/WagnerReis/url-shortener/commit/302c8d24a32d3e59eb9a178b1aa4b86405b48cfe))
+* **shortener:** add ShortererPresenter for HTTP response formatting ([590c4e3](https://github.com/WagnerReis/url-shortener/commit/590c4e3e26bdb9f4b7d69f4e99aadda897d05ea2))
+* **shortener:** add update original URL functionality ([205cfc9](https://github.com/WagnerReis/url-shortener/commit/205cfc9ac44e8493ebbb0d4891317a0e4fb3ac47))
+* **shortener:** implement short URL creation and update schema ([c9bcabc](https://github.com/WagnerReis/url-shortener/commit/c9bcabc92b6c300a14e023e0b7f1d20f2df6fb4d))
+
+
+### Bug Fixes
+
+* **shortener:** create short url with deletedAt as null, and update query to filter ([e5dde5e](https://github.com/WagnerReis/url-shortener/commit/e5dde5e827e209a7992c306dfedf13cff192fd9c))
+* **shortener:** handle optional userId in PrismaShortUrlMapper ([1f61415](https://github.com/WagnerReis/url-shortener/commit/1f61415f895c90665390666a83086f87ba465464))
+
 ### [0.1.2](https://github.com/WagnerReis/url-shortener/compare/v0.1.1...v0.1.2) (2025-07-18)
 
 
