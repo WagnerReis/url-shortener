@@ -7,6 +7,8 @@ COPY pnpm-lock.yaml ./
 COPY prisma ./prisma
 COPY . .
 
+ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
+
 RUN npm install -g pnpm \
   && pnpm install --frozen-lockfile \
   && npx prisma generate \
