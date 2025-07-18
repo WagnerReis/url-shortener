@@ -50,7 +50,7 @@ export class ShortUrl extends Entity<ShortUrlProps> {
     this.props.updatedAt = new Date();
   }
 
-  addClick() {
+  incrementVisits() {
     this.props.clickCount! += 1;
     this.props.updatedAt = new Date();
   }
