@@ -6,6 +6,7 @@ import { ShortenerController } from './shortener.controller';
 import { CreateShortUrlUseCase } from './usecases/create-short-url.usecase';
 import { ListShortUrlsUseCase } from './usecases/list-short-urls.usecase';
 import { GenerateShortCodeUseCase } from './usecases/short-code-generator.usecase';
+import { UpdateOriginalUrlUseCase } from './usecases/update-original-url.usecase';
 
 @Module({
   imports: [PrismaModule],
@@ -18,6 +19,7 @@ import { GenerateShortCodeUseCase } from './usecases/short-code-generator.usecas
     CreateShortUrlUseCase,
     GenerateShortCodeUseCase,
     ListShortUrlsUseCase,
+    UpdateOriginalUrlUseCase,
   ],
 })
 export class ShortenerModule {}
