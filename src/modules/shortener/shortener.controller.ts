@@ -13,6 +13,14 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import z from 'zod';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -33,6 +41,8 @@ type CreateUrlBody = z.infer<typeof createUrlBodySchema>;
 const updateUrlBodySchema = createUrlBodySchema;
 type UpdateUrlBody = CreateUrlBody;
 
+@ApiTags('shortener')
+@ApiBearerAuth('accessToken')
 @Controller('shortener')
 export class ShortenerController {
   private readonly logger = new Logger(ShortenerController.name);
@@ -47,6 +57,33 @@ export class ShortenerController {
   @UseGuards(JwtOptionalAuthGuard)
   @Post()
   @HttpCode(201)
+  @ApiOperation({ summary: 'Cria uma nova URL encurtada' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        url: { type: 'string', example: 'https://www.exemplo.com' },
+      },
+      required: ['url'],
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'URL encurtada criada com sucesso',
+    schema: {
+      example: {
+        success: true,
+        message: 'Url created successfully',
+        data: {
+          shortCode: 'abc123',
+          originalUrl: 'https://www.exemplo.com',
+          createdAt: '2025-07-18T00:00:00.000Z',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 400, description: 'Erro ao gerar shortCode' })
+  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   async create(
     @Body(new ZodValidationPipe(createUrlBodySchema)) body: CreateUrlBody,
     @CurrentUser('sub') userId: string,
@@ -81,6 +118,31 @@ export class ShortenerController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOperation({
+    summary: 'Lista todas as URLs encurtadas do usuário autenticado',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de URLs encurtadas',
+    schema: {
+      example: {
+        success: true,
+        message: 'Urls fetched successfully',
+        data: [
+          {
+            id: 'a1ae1ce4-6d10-4ca1-8cf1-8207529a5123',
+            shortCode: 'abc123',
+            originalUrl: 'https://www.exemplo.com',
+            userId: '18400d8b-53dd-4ea0-8a59-bd46a4328123',
+            clickCount: 2,
+            createdAt: '2025-07-18T12:42:08.034Z',
+            updatedAt: '2025-07-18T22:32:27.008Z',
+            deletedAt: null,
+          },
+        ],
+      },
+    },
+  })
   async list(@CurrentUser('sub') userId: string) {
     this.logger.log(`Listing short urls for user ${userId}`);
     const result = await this.listShortUrlsUseCase.execute({ userId });
@@ -100,6 +162,30 @@ export class ShortenerController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':shortCode')
+  @ApiOperation({ summary: 'Atualiza a URL original de um shortCode' })
+  @ApiParam({
+    name: 'shortCode',
+    description: 'Código curto da URL',
+    example: 'abc123',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        url: { type: 'string', example: 'https://www.novaurl.com' },
+      },
+      required: ['url'],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'URL atualizada com sucesso',
+    schema: { example: { success: true, message: 'Url updated successfully' } },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'ShortCode inválido ou erro de validação',
+  })
   async update(
     @Param('shortCode') shortCode: string,
     @Body(new ZodValidationPipe(updateUrlBodySchema)) body: UpdateUrlBody,
@@ -125,6 +211,21 @@ export class ShortenerController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':shortCode')
+  @ApiOperation({ summary: 'Remove uma URL encurtada pelo shortCode' })
+  @ApiParam({
+    name: 'shortCode',
+    description: 'Código curto da URL',
+    example: 'abc123',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'URL deletada com sucesso',
+    schema: { example: { success: true, message: 'Url deleted successfully' } },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'ShortCode inválido ou erro de validação',
+  })
   async delete(@Param('shortCode') shortCode: string) {
     this.logger.log(`Deleting short url ${shortCode}`);
 
