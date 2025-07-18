@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/WagnerReis/url-shortener/compare/v0.2.0...v0.2.1) (2025-07-18)
+
+
+### Features
+
+* **shortener:** add redirect controller and usecase ([851f9c1](https://github.com/WagnerReis/url-shortener/commit/851f9c1caee97190535d9beb97d38d345dfdbef8))
+* **shortener:** add RedirectShortUrlUseCase ([bd227bb](https://github.com/WagnerReis/url-shortener/commit/bd227bb01bebffb8d2d2c9104be1ee8a72b64cc6))
+
+
+### Bug Fixes
+
+* **shortener:** add deletedAt filter to findByShortCode query ([8c4cbeb](https://github.com/WagnerReis/url-shortener/commit/8c4cbeb80f0c77661790c0449e38bd2777ecbccf))
+
 ## [0.2.0](https://github.com/WagnerReis/url-shortener/compare/v0.1.2...v0.2.0) (2025-07-18)
 
 
