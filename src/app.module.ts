@@ -3,9 +3,7 @@ import { EnvModule } from '@env/env';
 import { envSchema } from '@env/env/env';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';
-import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { ShortenerModule } from './modules/shortener/shortener.module';
 import { UsersModule } from './modules/users/users.module';
 
@@ -22,11 +20,6 @@ import { UsersModule } from './modules/users/users.module';
     ShortenerModule,
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}

@@ -34,7 +34,7 @@ export class SignInUseCase {
       return left(new UnauthorizedError('Invalid password.'));
     }
 
-    const payload = { sub: user.id };
+    const payload = { sub: user.id.toString(), email: user.email };
 
     const accessToken = await this.encrypter.encrypt(payload, {
       expiresIn: '1d',
