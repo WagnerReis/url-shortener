@@ -12,13 +12,16 @@ describe('RedirectShortUrlUseCase', () => {
     sut = new RedirectShortUrlUseCase(shortUrlRepository);
   });
 
-  it('deve incrementar o clickCount e retornar a URL original', async () => {
+  it('should increment the clickCount and return the original URL', async () => {
     const shortUrl = ShortUrl.create({
       originalUrl: 'https://www.google.com',
       shortCode: 'abc123',
     });
+
     await shortUrlRepository.create(shortUrl);
+
     const result = await sut.execute({ shortCode: 'abc123' });
+
     expect(result.isRight()).toBeTruthy();
     if (result.isRight()) {
       expect(result.value.originalUrl).toBe('https://www.google.com');
@@ -26,8 +29,9 @@ describe('RedirectShortUrlUseCase', () => {
     expect(shortUrlRepository.shortUrls[0].clickCount).toBe(1);
   });
 
-  it('deve retornar NotFoundError se o shortCode não existir', async () => {
+  it('should return NotFoundError if the shortCode does not exist', async () => {
     const result = await sut.execute({ shortCode: 'not-exist' });
+
     expect(result.isLeft()).toBeTruthy();
     if (result.isLeft()) {
       expect(result.value).toBeInstanceOf(NotFoundError);
