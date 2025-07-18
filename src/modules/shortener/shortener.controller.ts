@@ -8,12 +8,12 @@ import {
   InternalServerErrorException,
   Logger,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import z from 'zod';
-import { Public } from '../auth/decorators/public.decorator';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtOptionalAuthGuard } from '../auth/guards/jwt-optional-auth.guard';
 import { ShortererPresenter } from './presenters/shorterer-presenter';
 import { CreateShortUrlUseCase } from './usecases/create-short-url.usecase';
 import { MaxRetriesGenerateCodeError } from './usecases/errors/max-retries-generate-code.error';
@@ -34,11 +34,12 @@ export class ShortenerController {
     private readonly listShortUrlsUseCase: ListShortUrlsUseCase,
   ) {}
 
-  @Public()
+  @UseGuards(JwtOptionalAuthGuard)
   @Post()
   @HttpCode(201)
   async create(
     @Body(new ZodValidationPipe(createUrlBodySchema)) body: CreateUrlBody,
+    @CurrentUser('sub') userId: string,
   ) {
     const { url } = body;
 
@@ -46,6 +47,7 @@ export class ShortenerController {
 
     const result = await this.createShortUrlUseCase.execute({
       originalUrl: url,
+      userId: userId ?? null,
     });
 
     if (result.isLeft()) {
@@ -69,9 +71,7 @@ export class ShortenerController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async list(@Req() req) {
-    const userId = req.user?.sub;
-
+  async list(@CurrentUser('sub') userId: string) {
     this.logger.log(`Listing short urls for user ${userId}`);
     const result = await this.listShortUrlsUseCase.execute({ userId });
 
