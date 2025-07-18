@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/WagnerReis/url-shortener/compare/v0.1.1...v0.1.2) (2025-07-18)
+
+
+### Features
+
+* **schema:** add ShortUrl and Click models, update User model ([5214092](https://github.com/WagnerReis/url-shortener/commit/52140922438a6be94ef04f24d5ee7e1cffc7cfaa))
+* **shortener:** add list short URLs functionality ([fdd9c6e](https://github.com/WagnerReis/url-shortener/commit/fdd9c6e09671f03f39bb2992845b54495081b004))
+* **shortener:** add NotFoundError class for handling not found scenarios ([5454a99](https://github.com/WagnerReis/url-shortener/commit/5454a996de47ad8144bcc89f169a98c3e007cb2d))
+* **shortener:** add PrismaShortUrlMapper for domain-prisma conversion ([0a67709](https://github.com/WagnerReis/url-shortener/commit/0a677090cb199859a8a1d38ae1770d9c4f9bbcb7))
+* **shortener:** add UpdateOriginalUrlUseCase ([a24fdb0](https://github.com/WagnerReis/url-shortener/commit/a24fdb0042b3a3c372f2927436921455ccad8f3d))
+* **shortener:** implement PrismaShortUrlRepository ([29defef](https://github.com/WagnerReis/url-shortener/commit/29defef65a8bbaebe793dad6beed303259fe20a0))
+
+
+### Bug Fixes
+
+* **shortener:** correct typo in short-url-repository filename ([ab96e1f](https://github.com/WagnerReis/url-shortener/commit/ab96e1fd405dc8eb4538d568bf3f574fc81fc674))
+
 ### [0.1.1](https://github.com/WagnerReis/url-shortener/compare/v0.1.0...v0.1.1) (2025-07-17)
 
 
