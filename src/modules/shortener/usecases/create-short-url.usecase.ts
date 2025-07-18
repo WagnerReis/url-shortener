@@ -38,7 +38,7 @@ export class CreateShortUrlUseCase {
       return left(shortCodeResult.value);
     }
 
-    const shortCode = shortCodeResult.value.shortCode;
+    const { shortCode } = shortCodeResult.value;
 
     const shortUrl = ShortUrl.create({
       originalUrl,

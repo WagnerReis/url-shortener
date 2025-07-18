@@ -72,7 +72,7 @@ export class ShortenerController {
       throw new InternalServerErrorException('An error occurred');
     }
 
-    const shortUrl = result.value.shortUrl;
+    const { shortUrl } = result.value;
 
     return {
       success: true,
@@ -91,7 +91,7 @@ export class ShortenerController {
       return { success: true, message: 'No URLs found', data: [] };
     }
 
-    const shortUrls = result.value.shortUrls;
+    const { shortUrls } = result.value;
 
     return {
       success: true,
@@ -120,7 +120,7 @@ export class ShortenerController {
         throw new NotFoundException(error.message);
       }
 
-      throw new BadRequestException(result.value.message);
+      throw new BadRequestException(error.message);
     }
 
     return {
