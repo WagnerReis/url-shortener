@@ -9,7 +9,7 @@ export class PrismaShortUrlMapper {
       {
         originalUrl: raw.originalUrl,
         shortCode: raw.shortCode,
-        userId: raw.userId,
+        userId: raw.userId || '',
         clickCount: raw.clickCount,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
@@ -24,7 +24,7 @@ export class PrismaShortUrlMapper {
       id: shortUrl.id.toString(),
       originalUrl: shortUrl.originalUrl,
       shortCode: shortUrl.shortCode,
-      userId: shortUrl.userId || '',
+      ...(shortUrl.userId ? { userId: shortUrl.userId } : {}),
       clickCount: shortUrl.clickCount,
       createdAt: shortUrl.createdAt,
       updatedAt: shortUrl.updatedAt,
