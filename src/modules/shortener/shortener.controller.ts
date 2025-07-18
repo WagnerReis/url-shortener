@@ -8,7 +8,6 @@ import {
   HttpCode,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -22,7 +21,6 @@ import { ShortererPresenter } from './presenters/shorterer-presenter';
 import { CreateShortUrlUseCase } from './usecases/create-short-url.usecase';
 import { DeleteShortUrlUseCase } from './usecases/delete-short-url.usecase';
 import { MaxRetriesGenerateCodeError } from './usecases/errors/max-retries-generate-code.error';
-import { NotFoundError } from './usecases/errors/not-found.error';
 import { ListShortUrlsUseCase } from './usecases/list-short-urls.usecase';
 import { UpdateOriginalUrlUseCase } from './usecases/update-original-url.usecase';
 
@@ -116,10 +114,6 @@ export class ShortenerController {
     if (result.isLeft()) {
       const error = result.value as Error;
 
-      if (error instanceof NotFoundError) {
-        throw new NotFoundException(error.message);
-      }
-
       throw new BadRequestException(error.message);
     }
 
@@ -138,10 +132,6 @@ export class ShortenerController {
 
     if (result.isLeft()) {
       const error = result.value as Error;
-
-      if (error instanceof NotFoundError) {
-        throw new NotFoundException(error.message);
-      }
 
       throw new BadRequestException(error.message);
     }

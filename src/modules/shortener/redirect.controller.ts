@@ -3,11 +3,9 @@ import {
   Controller,
   Get,
   Logger,
-  NotFoundException,
   Param,
   Res,
 } from '@nestjs/common';
-import { NotFoundError } from './usecases/errors/not-found.error';
 import { RedirectShortUrlUseCase } from './usecases/redirect-short-url.usecase';
 
 @Controller('')
@@ -23,9 +21,6 @@ export class RedirectController {
     if (result.isLeft()) {
       const error = result.value as Error;
 
-      if (error instanceof NotFoundError) {
-        throw new NotFoundException(error.message);
-      }
       throw new BadRequestException(error.message);
     }
 
