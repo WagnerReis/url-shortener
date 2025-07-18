@@ -4,6 +4,7 @@ import { PrismaShortUrlRepository } from './repositories/prisma/short-url-reposi
 import { ShortUrlRepositoryInterface } from './repositories/short-url-repository.interface';
 import { ShortenerController } from './shortener.controller';
 import { CreateShortUrlUseCase } from './usecases/create-short-url.usecase';
+import { ListShortUrlsUseCase } from './usecases/list-short-urls.usecase';
 import { GenerateShortCodeUseCase } from './usecases/short-code-generator.usecase';
 
 @Module({
@@ -16,6 +17,7 @@ import { GenerateShortCodeUseCase } from './usecases/short-code-generator.usecas
     },
     CreateShortUrlUseCase,
     GenerateShortCodeUseCase,
+    ListShortUrlsUseCase,
   ],
 })
 export class ShortenerModule {}
