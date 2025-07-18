@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/WagnerReis/url-shortener/compare/v0.2.1...v0.2.2) (2025-07-18)
+
+
+### Features
+
+* **swagger:** add API documentation with Swagger ([75dd21b](https://github.com/WagnerReis/url-shortener/commit/75dd21b31203fb08fbed7abd8c4f0248929d5f6c))
+* **swagger:** add Swagger documentation to API endpoints ([7042a24](https://github.com/WagnerReis/url-shortener/commit/7042a2423766786a2c45863eedc9bcca0c4346c2))
+
 ### [0.2.1](https://github.com/WagnerReis/url-shortener/compare/v0.2.0...v0.2.1) (2025-07-18)
 
 
