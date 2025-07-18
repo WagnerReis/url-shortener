@@ -18,7 +18,7 @@ export class PrismaShortUrlRepository implements ShortUrlRepositoryInterface {
     const shortUrls = await this.prisma.shortUrl.findMany({
       where: {
         userId,
-        deletedAt: undefined,
+        deletedAt: null,
       },
     });
     return shortUrls.map((shortUrl) => PrismaShortUrlMapper.toDomain(shortUrl));
