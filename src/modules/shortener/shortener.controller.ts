@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   InternalServerErrorException,
@@ -19,6 +20,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtOptionalAuthGuard } from '../auth/guards/jwt-optional-auth.guard';
 import { ShortererPresenter } from './presenters/shorterer-presenter';
 import { CreateShortUrlUseCase } from './usecases/create-short-url.usecase';
+import { DeleteShortUrlUseCase } from './usecases/delete-short-url.usecase';
 import { MaxRetriesGenerateCodeError } from './usecases/errors/max-retries-generate-code.error';
 import { NotFoundError } from './usecases/errors/not-found.error';
 import { ListShortUrlsUseCase } from './usecases/list-short-urls.usecase';
@@ -41,6 +43,7 @@ export class ShortenerController {
     private readonly createShortUrlUseCase: CreateShortUrlUseCase,
     private readonly listShortUrlsUseCase: ListShortUrlsUseCase,
     private readonly updateOriginalUrlUseCase: UpdateOriginalUrlUseCase,
+    private readonly deleteShortUrlUseCase: DeleteShortUrlUseCase,
   ) {}
 
   @UseGuards(JwtOptionalAuthGuard)
@@ -100,11 +103,10 @@ export class ShortenerController {
   @UseGuards(JwtAuthGuard)
   @Patch(':shortCode')
   async update(
-    @CurrentUser('sub') userId: string,
     @Param('shortCode') shortCode: string,
     @Body(new ZodValidationPipe(updateUrlBodySchema)) body: UpdateUrlBody,
   ) {
-    this.logger.log(`Updating short url ${shortCode} for user ${userId}`);
+    this.logger.log(`Updating short url ${shortCode}`);
 
     const result = await this.updateOriginalUrlUseCase.execute({
       shortCode,
@@ -112,7 +114,7 @@ export class ShortenerController {
     });
 
     if (result.isLeft()) {
-      const error = result.value;
+      const error = result.value as Error;
 
       if (error instanceof NotFoundError) {
         throw new NotFoundException(error.message);
@@ -124,6 +126,29 @@ export class ShortenerController {
     return {
       success: true,
       message: 'Url updated successfully',
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':shortCode')
+  async delete(@Param('shortCode') shortCode: string) {
+    this.logger.log(`Deleting short url ${shortCode}`);
+
+    const result = await this.deleteShortUrlUseCase.execute({ shortCode });
+
+    if (result.isLeft()) {
+      const error = result.value as Error;
+
+      if (error instanceof NotFoundError) {
+        throw new NotFoundException(error.message);
+      }
+
+      throw new BadRequestException(error.message);
+    }
+
+    return {
+      success: true,
+      message: 'Url deleted successfully',
     };
   }
 }

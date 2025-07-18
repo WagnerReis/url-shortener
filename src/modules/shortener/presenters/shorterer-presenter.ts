@@ -9,6 +9,8 @@ export class ShortererPresenter {
       userId: shortUrl.userId,
       clickCount: shortUrl.clickCount,
       createdAt: shortUrl.createdAt,
+      updatedAt: shortUrl.updatedAt,
+      deletedAt: shortUrl.deletedAt,
     };
   }
 }
