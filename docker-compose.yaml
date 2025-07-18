@@ -30,7 +30,7 @@ services:
       - .env
     ports:
       - '3000:3000'
-    command: sh -c "npx prisma migrate deploy && node dist/main.js"
+    command: sh -c "npx prisma migrate deploy && npm run start:dev"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
