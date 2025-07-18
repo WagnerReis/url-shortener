@@ -28,6 +28,7 @@ export class PrismaShortUrlRepository implements ShortUrlRepositoryInterface {
     const shortUrl = await this.prisma.shortUrl.findFirst({
       where: {
         shortCode,
+        deletedAt: null,
       },
     });
     return shortUrl ? PrismaShortUrlMapper.toDomain(shortUrl) : null;
