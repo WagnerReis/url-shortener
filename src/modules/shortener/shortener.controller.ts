@@ -1,4 +1,5 @@
 import { ZodValidationPipe } from '@/core/pipes/zod-validation.pipe';
+import { EnvService } from '@env/env';
 import {
   BadRequestException,
   Body,
@@ -11,6 +12,7 @@ import {
   Param,
   Patch,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -21,11 +23,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import z from 'zod';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtOptionalAuthGuard } from '../auth/guards/jwt-optional-auth.guard';
 import { ShortererPresenter } from './presenters/shorterer-presenter';
+import { buildShortUrl } from './presenters/url-builder';
 import { CreateShortUrlUseCase } from './usecases/create-short-url.usecase';
 import { DeleteShortUrlUseCase } from './usecases/delete-short-url.usecase';
 import { MaxRetriesGenerateCodeError } from './usecases/errors/max-retries-generate-code.error';
@@ -52,6 +56,7 @@ export class ShortenerController {
     private readonly listShortUrlsUseCase: ListShortUrlsUseCase,
     private readonly updateOriginalUrlUseCase: UpdateOriginalUrlUseCase,
     private readonly deleteShortUrlUseCase: DeleteShortUrlUseCase,
+    private readonly envService: EnvService, // injetar EnvService
   ) {}
 
   @UseGuards(JwtOptionalAuthGuard)
@@ -75,6 +80,7 @@ export class ShortenerController {
         success: true,
         message: 'Url created successfully',
         data: {
+          shortUrl: 'https://mydomain.com/abc123',
           shortCode: 'abc123',
           originalUrl: 'https://www.exemplo.com',
           createdAt: '2025-07-18T00:00:00.000Z',
@@ -87,6 +93,7 @@ export class ShortenerController {
   async create(
     @Body(new ZodValidationPipe(createUrlBodySchema)) body: CreateUrlBody,
     @CurrentUser('sub') userId: string,
+    @Req() req: Request,
   ) {
     const { url } = body;
 
@@ -109,10 +116,21 @@ export class ShortenerController {
 
     const { shortUrl } = result.value;
 
+    const shortUrlFull = buildShortUrl(
+      shortUrl.shortCode,
+      req,
+      this.envService,
+    );
+
     return {
       success: true,
       message: 'Url created successfully',
-      data: ShortererPresenter.toHTTP(shortUrl),
+      data: {
+        shortUrl: shortUrlFull,
+        shortCode: shortUrl.shortCode,
+        originalUrl: shortUrl.originalUrl,
+        createdAt: shortUrl.createdAt,
+      },
     };
   }
 
@@ -133,6 +151,7 @@ export class ShortenerController {
             id: 'a1ae1ce4-6d10-4ca1-8cf1-8207529a5123',
             shortCode: 'abc123',
             originalUrl: 'https://www.exemplo.com',
+            shortUrl: 'https://mydomain.com/abc123',
             userId: '18400d8b-53dd-4ea0-8a59-bd46a4328123',
             clickCount: 2,
             createdAt: '2025-07-18T12:42:08.034Z',
@@ -143,7 +162,7 @@ export class ShortenerController {
       },
     },
   })
-  async list(@CurrentUser('sub') userId: string) {
+  async list(@CurrentUser('sub') userId: string, @Req() req: Request) {
     this.logger.log(`Listing short urls for user ${userId}`);
     const result = await this.listShortUrlsUseCase.execute({ userId });
 
@@ -158,7 +177,9 @@ export class ShortenerController {
     return {
       success: true,
       message: 'Urls fetched successfully',
-      data: shortUrls.map((url) => ShortererPresenter.toHTTP(url)),
+      data: shortUrls.map((url) =>
+        ShortererPresenter.toHTTP(url, req, this.envService),
+      ),
     };
   }
 

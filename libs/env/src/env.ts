@@ -8,6 +8,7 @@ export const envSchema = z.object({
     .number()
     .optional()
     .default(60 * 60 * 24),
+  BASE_URL: z.string().optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;

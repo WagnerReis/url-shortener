@@ -1,4 +1,5 @@
-FROM node:latest AS builder
+# Etapa de build
+FROM node:22.17.1 AS builder
 
 WORKDIR /usr/src/app
 
@@ -14,7 +15,7 @@ RUN npm install -g pnpm \
   && npx prisma generate \
   && pnpm run build
 
-FROM node:latest
+FROM node:22.17.1
 
 WORKDIR /usr/src/app
 

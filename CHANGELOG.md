@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.8](https://github.com/WagnerReis/url-shortener/compare/v0.2.7...v0.2.8) (2025-07-19)
+
+### [0.2.7](https://github.com/WagnerReis/url-shortener/compare/v0.2.6...v0.2.7) (2025-07-19)
+
+### [0.2.6](https://github.com/WagnerReis/url-shortener/compare/v0.2.5...v0.2.6) (2025-07-19)
+
+
+### Features
+
+* **shortener:** add full short URL to response and support BASE_URL env variable ([aea5a4e](https://github.com/WagnerReis/url-shortener/commit/aea5a4ed0cac00edb7909481dfcbaca898f0b8cf))
+
 ### [0.2.5](https://github.com/WagnerReis/url-shortener/compare/v0.2.4...v0.2.5) (2025-07-19)
 
 ### [0.2.4](https://github.com/WagnerReis/url-shortener/compare/v0.2.3...v0.2.4) (2025-07-19)

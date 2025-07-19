@@ -1,10 +1,13 @@
 {
   "name": "url-shortener",
-  "version": "0.2.5",
+  "version": "0.2.8",
   "description": "",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.17.1 <23.0.0"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
@@ -35,6 +38,7 @@
     "@prisma/client": "^6.12.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.0",
+    "express": "^5.1.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
