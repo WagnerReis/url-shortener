@@ -1,3 +1,5 @@
+import { Logger } from 'nestjs-pino';
+import { mockLogger } from 'test/mocks/logger.mock';
 import { InMemoryShortUrlRepository } from 'test/repositories/in-memory-short-url.repository';
 import { ShortUrl } from '../entities/short-url.entity';
 import { ListShortUrlsUseCase } from './list-short-urls.usecase';
@@ -8,7 +10,10 @@ let SUT: ListShortUrlsUseCase;
 describe('ListShortUrlsUseCase', () => {
   beforeEach(() => {
     inMemoryShortUrlRepository = new InMemoryShortUrlRepository();
-    SUT = new ListShortUrlsUseCase(inMemoryShortUrlRepository);
+    SUT = new ListShortUrlsUseCase(
+      inMemoryShortUrlRepository,
+      mockLogger as Logger,
+    );
   });
 
   it('should be able to create a short url', async () => {

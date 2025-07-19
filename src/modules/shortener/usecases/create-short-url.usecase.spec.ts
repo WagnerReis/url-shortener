@@ -1,4 +1,6 @@
 import { left } from '@/core/either';
+import { Logger } from 'nestjs-pino';
+import { mockLogger } from 'test/mocks/logger.mock';
 import { InMemoryShortUrlRepository } from 'test/repositories/in-memory-short-url.repository';
 import { CreateShortUrlUseCase } from './create-short-url.usecase';
 import { MaxRetriesGenerateCodeError } from './errors/max-retries-generate-code.error';
@@ -17,6 +19,7 @@ describe('CreateShortUrlUseCase', () => {
     SUT = new CreateShortUrlUseCase(
       inMemoryShortUrlRepository,
       generateShortCodeUseCase,
+      mockLogger as Logger,
     );
   });
 

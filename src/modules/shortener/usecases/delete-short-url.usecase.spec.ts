@@ -1,3 +1,5 @@
+import { Logger } from 'nestjs-pino';
+import { mockLogger } from 'test/mocks/logger.mock';
 import { InMemoryShortUrlRepository } from 'test/repositories/in-memory-short-url.repository';
 import { ShortUrl } from '../entities/short-url.entity';
 import { DeleteShortUrlUseCase } from './delete-short-url.usecase';
@@ -9,7 +11,7 @@ describe('DeleteShortUrlUseCase', () => {
 
   beforeEach(() => {
     shortUrlRepository = new InMemoryShortUrlRepository();
-    sut = new DeleteShortUrlUseCase(shortUrlRepository);
+    sut = new DeleteShortUrlUseCase(shortUrlRepository, mockLogger as Logger);
   });
 
   it('should logically delete a shortUrl', async () => {

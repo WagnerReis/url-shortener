@@ -1,4 +1,6 @@
+import { Logger } from 'nestjs-pino';
 import { FakeHasher } from 'test/cryptography/fake-hasher';
+import { mockLogger } from 'test/mocks/logger.mock';
 import { InMemoryUserRepository } from 'test/repositories/in-memory-user.repository';
 import { User } from '../entities/user.entity';
 import { CreateUserUseCase } from './create-user.usecase';
@@ -12,7 +14,11 @@ describe('Create user use case', () => {
   beforeEach(() => {
     inMemoryUserRepository = new InMemoryUserRepository();
     hashGenerator = new FakeHasher();
-    SUT = new CreateUserUseCase(inMemoryUserRepository, hashGenerator);
+    SUT = new CreateUserUseCase(
+      inMemoryUserRepository,
+      hashGenerator,
+      mockLogger as Logger,
+    );
   });
 
   it('should be able to create a user', async () => {

@@ -1,3 +1,5 @@
+import { Logger } from 'nestjs-pino';
+import { mockLogger } from 'test/mocks/logger.mock';
 import { InMemoryShortUrlRepository } from 'test/repositories/in-memory-short-url.repository';
 import { ShortUrl } from '../entities/short-url.entity';
 import { NotFoundError } from './errors/not-found.error';
@@ -9,7 +11,7 @@ describe('RedirectShortUrlUseCase', () => {
 
   beforeEach(() => {
     shortUrlRepository = new InMemoryShortUrlRepository();
-    sut = new RedirectShortUrlUseCase(shortUrlRepository);
+    sut = new RedirectShortUrlUseCase(shortUrlRepository, mockLogger as Logger);
   });
 
   it('should increment the clickCount and return the original URL', async () => {

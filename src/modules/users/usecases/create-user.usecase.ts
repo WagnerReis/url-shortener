@@ -20,9 +20,7 @@ export class CreateUserUseCase {
     private userRepository: UserRepositoryInterface,
     private hasher: HashGenerator,
     private readonly logger: Logger,
-  ) {
-    this.logger.log('CreateUserUseCase initialized');
-  }
+  ) {}
 
   async execute(data: CreateUserRequest): Promise<CreateUserResponse> {
     const { name, email, password } = data;
