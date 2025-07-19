@@ -5,11 +5,11 @@ import {
   HttpCode,
   HttpStatus,
   InternalServerErrorException,
-  Logger,
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import z from 'zod';
 import { Public } from './decorators/public.decorator';
 import { UnauthorizedError } from './usecases/errors/unauthorized.error';
@@ -25,9 +25,10 @@ type SignInBody = z.infer<typeof signInBodySchema>;
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly signInUseCase: SignInUseCase) {}
-
-  private readonly logger: Logger = new Logger(AuthController.name);
+  constructor(
+    private readonly signInUseCase: SignInUseCase,
+    private readonly logger: Logger,
+  ) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)

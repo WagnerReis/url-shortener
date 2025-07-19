@@ -1,6 +1,7 @@
 import { HashGenerator } from '@/core/cryptography/hash-generator';
 import { Either, left, right } from '@/core/either';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { Logger } from 'nestjs-pino';
 import { User } from '../entities/user.entity';
 import { UserRepositoryInterface } from '../repositories/user-repository.interface';
 import { UserAlreadyExistsError } from './errors/user-already-exists.error';
@@ -15,11 +16,10 @@ type CreateUserResponse = Either<UserAlreadyExistsError, { user: User }>;
 
 @Injectable()
 export class CreateUserUseCase {
-  private readonly logger = new Logger(CreateUserUseCase.name);
-
   constructor(
     private userRepository: UserRepositoryInterface,
     private hasher: HashGenerator,
+    private readonly logger: Logger,
   ) {
     this.logger.log('CreateUserUseCase initialized');
   }

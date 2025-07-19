@@ -1,5 +1,6 @@
 import { Either, left, right } from '@/core/either';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { Logger } from 'nestjs-pino';
 import { ShortUrlRepositoryInterface } from '../repositories/short-url-repository.interface';
 import { NotFoundError } from './errors/not-found.error';
 
@@ -14,8 +15,10 @@ type RedirectShortUrlUseCaseResponse = Either<
 
 @Injectable()
 export class RedirectShortUrlUseCase {
-  private readonly logger = new Logger(RedirectShortUrlUseCase.name);
-  constructor(private shortUrlRepository: ShortUrlRepositoryInterface) {}
+  constructor(
+    private shortUrlRepository: ShortUrlRepositoryInterface,
+    private readonly logger: Logger,
+  ) {}
 
   async execute({
     shortCode,

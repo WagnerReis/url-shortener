@@ -5,10 +5,10 @@ import {
   Controller,
   HttpCode,
   InternalServerErrorException,
-  Logger,
   Post,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import { z } from 'zod';
 import { Public } from '../auth/decorators/public.decorator';
 import { UserPresenter } from './presenters/user-presenter';
@@ -26,9 +26,10 @@ type CreateUserBody = z.infer<typeof createUserBodySchema>;
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  private readonly logger = new Logger(UsersController.name);
-
-  constructor(private createUserUseCase: CreateUserUseCase) {}
+  constructor(
+    private createUserUseCase: CreateUserUseCase,
+    private readonly logger: Logger,
+  ) {}
 
   @Public()
   @Post()

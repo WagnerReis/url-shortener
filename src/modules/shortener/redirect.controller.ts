@@ -2,19 +2,20 @@ import {
   BadRequestException,
   Controller,
   Get,
-  Logger,
   Param,
   Res,
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import { RedirectShortUrlUseCase } from './usecases/redirect-short-url.usecase';
 
 @ApiTags('redirect')
 @Controller('')
 export class RedirectController {
-  private readonly logger = new Logger(RedirectController.name);
-
-  constructor(private readonly redirectShortUrl: RedirectShortUrlUseCase) {}
+  constructor(
+    private readonly redirectShortUrl: RedirectShortUrlUseCase,
+    private readonly logger: Logger,
+  ) {}
 
   @Get(':shortCode')
   @ApiOperation({

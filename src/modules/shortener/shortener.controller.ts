@@ -8,7 +8,6 @@ import {
   Get,
   HttpCode,
   InternalServerErrorException,
-  Logger,
   Param,
   Patch,
   Post,
@@ -24,6 +23,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Request } from 'express';
+import { Logger } from 'nestjs-pino';
 import z from 'zod';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -49,14 +49,13 @@ type UpdateUrlBody = CreateUrlBody;
 @ApiBearerAuth('accessToken')
 @Controller('shortener')
 export class ShortenerController {
-  private readonly logger = new Logger(ShortenerController.name);
-
   constructor(
     private readonly createShortUrlUseCase: CreateShortUrlUseCase,
     private readonly listShortUrlsUseCase: ListShortUrlsUseCase,
     private readonly updateOriginalUrlUseCase: UpdateOriginalUrlUseCase,
     private readonly deleteShortUrlUseCase: DeleteShortUrlUseCase,
-    private readonly envService: EnvService, // injetar EnvService
+    private readonly envService: EnvService,
+    private readonly logger: Logger,
   ) {}
 
   @UseGuards(JwtOptionalAuthGuard)
@@ -97,7 +96,7 @@ export class ShortenerController {
   ) {
     const { url } = body;
 
-    this.logger.log(`Creating short url for ${url}`);
+    this.logger.log(`Creating short url for`);
 
     const result = await this.createShortUrlUseCase.execute({
       originalUrl: url,

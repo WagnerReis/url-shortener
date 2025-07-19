@@ -1,5 +1,6 @@
 import { Either, right } from '@/core/either';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { Logger } from 'nestjs-pino';
 import { ShortUrl } from '../entities/short-url.entity';
 import { ShortUrlRepositoryInterface } from '../repositories/short-url-repository.interface';
 
@@ -16,10 +17,9 @@ type ListShortUrlsUseCaseResponse = Either<
 
 @Injectable()
 export class ListShortUrlsUseCase {
-  private readonly logger = new Logger(ListShortUrlsUseCase.name);
-
   constructor(
     private readonly shortUrlRepository: ShortUrlRepositoryInterface,
+    private readonly logger: Logger,
   ) {}
 
   async execute({

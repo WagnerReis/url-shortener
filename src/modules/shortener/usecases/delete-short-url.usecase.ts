@@ -1,5 +1,6 @@
 import { Either, left, right } from '@/core/either';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { Logger } from 'nestjs-pino';
 import { ShortUrlRepositoryInterface } from '../repositories/short-url-repository.interface';
 import { NotFoundError } from './errors/not-found.error';
 
@@ -11,8 +12,10 @@ type DeleteShortUrlUseCaseResponse = Either<NotFoundError, null>;
 
 @Injectable()
 export class DeleteShortUrlUseCase {
-  private readonly logger = new Logger(DeleteShortUrlUseCase.name);
-  constructor(private shortUrlRepository: ShortUrlRepositoryInterface) {}
+  constructor(
+    private shortUrlRepository: ShortUrlRepositoryInterface,
+    private readonly logger: Logger,
+  ) {}
 
   async execute({
     shortCode,
