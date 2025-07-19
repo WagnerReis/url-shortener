@@ -1,3 +1,4 @@
+import { EnvModule } from '@env/env';
 import { Module } from '@nestjs/common';
 import { PrismaModule } from '@prisma-lib';
 import { RedirectController } from './redirect.controller';
@@ -12,7 +13,7 @@ import { GenerateShortCodeUseCase } from './usecases/short-code-generator.usecas
 import { UpdateOriginalUrlUseCase } from './usecases/update-original-url.usecase';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, EnvModule],
   controllers: [ShortenerController, RedirectController],
   providers: [
     {
