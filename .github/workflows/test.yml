@@ -1,0 +1,72 @@
+name: Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: url_shortener_test
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.10.0
+
+          - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Run linting
+      run: pnpm lint
+
+    - name: Generate Prisma client
+        run: npx prisma generate
+
+          - name: Run database migrations
+      run: npx prisma migrate deploy
+      env:
+        DATABASE_URL: postgresql://postgres:password@localhost:5432/url_shortener_test
+
+    - name: Debug database connection
+      run: |
+        echo "Testing database connection..."
+        npx prisma db execute --stdin <<< "SELECT version();"
+      env:
+        DATABASE_URL: postgresql://postgres:password@localhost:5432/url_shortener_test
+
+    - name: Run tests
+        run: pnpm test
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/url_shortener_test
+
+      # - name: Run E2E tests
+      #   run: pnpm test:e2e
+      #   env:
+      #     DATABASE_URL: postgresql://postgres:password@localhost:5432/url_shortener_test
