@@ -148,7 +148,9 @@ export class ShortenerController {
     const result = await this.listShortUrlsUseCase.execute({ userId });
 
     if (result.isLeft()) {
-      return { success: true, message: 'No URLs found', data: [] };
+      const error = result.value;
+
+      throw new BadRequestException(error);
     }
 
     const { shortUrls } = result.value;
