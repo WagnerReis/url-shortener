@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.9](https://github.com/WagnerReis/url-shortener/compare/v0.2.8...v0.2.9) (2025-07-19)
+
+
+### Features
+
+* **logger:** add pino logger module and integrate with application ([b48d4f5](https://github.com/WagnerReis/url-shortener/commit/b48d4f5284eba1854ae786f8ba38c8c87749eac0))
+
 ### [0.2.8](https://github.com/WagnerReis/url-shortener/compare/v0.2.7...v0.2.8) (2025-07-19)
 
 ### [0.2.7](https://github.com/WagnerReis/url-shortener/compare/v0.2.6...v0.2.7) (2025-07-19)
