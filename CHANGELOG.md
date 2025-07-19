@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.5](https://github.com/WagnerReis/url-shortener/compare/v0.2.4...v0.2.5) (2025-07-19)
+
+### [0.2.4](https://github.com/WagnerReis/url-shortener/compare/v0.2.3...v0.2.4) (2025-07-19)
+
+
+### Features
+
+* **test:** add e2e test setup and coverage script ([7704025](https://github.com/WagnerReis/url-shortener/commit/7704025d87a9bba331cf2b0da2928ae9aeb48e78))
+
 ### [0.2.3](https://github.com/WagnerReis/url-shortener/compare/v0.2.2...v0.2.3) (2025-07-19)
 
 ### [0.2.2](https://github.com/WagnerReis/url-shortener/compare/v0.2.1...v0.2.2) (2025-07-18)
