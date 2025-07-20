@@ -1,12 +1,15 @@
 import { EnvService } from '@env/env';
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './core/filters/http-exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+    logger: false,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Url Shortener')
@@ -26,12 +29,11 @@ async function bootstrap() {
 
   const envService = app.get(EnvService);
   const port = envService.get('PORT');
-  const logger = new Logger('NestApplication');
 
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter(app.get(Logger)));
 
   await app.listen(port);
 
-  logger.log(`Server is running on port:${port}`);
+  app.get(Logger).log(`Server is running on port:${port}`);
 }
 void bootstrap();

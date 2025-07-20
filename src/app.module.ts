@@ -1,4 +1,5 @@
 import { CryptographyModule } from '@app/cryptography';
+import { LoggerModule } from '@app/logger';
 import { EnvModule } from '@env/env';
 import { envSchema } from '@env/env/env';
 import { Module } from '@nestjs/common';
@@ -18,6 +19,7 @@ import { UsersModule } from './modules/users/users.module';
     UsersModule,
     AuthModule,
     ShortenerModule,
+    LoggerModule,
   ],
   controllers: [],
   providers: [],

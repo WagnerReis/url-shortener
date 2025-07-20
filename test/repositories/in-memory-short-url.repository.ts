@@ -1,5 +1,9 @@
 import { ShortUrl } from '@/modules/shortener/entities/short-url.entity';
-import { ShortUrlRepositoryInterface } from '@/modules/shortener/repositories/short-url-repository.interface';
+import {
+  PaginationOptions,
+  PaginationResult,
+  ShortUrlRepositoryInterface,
+} from '@/modules/shortener/repositories/short-url-repository.interface';
 
 export class InMemoryShortUrlRepository implements ShortUrlRepositoryInterface {
   public shortUrls: ShortUrl[] = [];
@@ -24,6 +28,41 @@ export class InMemoryShortUrlRepository implements ShortUrlRepositoryInterface {
     const shortUrls = this.shortUrls.filter((item) => item.userId === userId);
 
     return Promise.resolve(shortUrls);
+  }
+
+  async findByUserIdWithPagination(
+    userId: string,
+    options: PaginationOptions,
+  ): Promise<PaginationResult> {
+    const { page, limit, sortBy, sortOrder } = options;
+
+    const filteredUrls = this.shortUrls.filter(
+      (item) => item.userId === userId,
+    );
+
+    filteredUrls.sort((a, b) => {
+      const aValue = a[sortBy];
+      const bValue = b[sortBy];
+
+      if (aValue === undefined || bValue === undefined) {
+        return 0;
+      }
+
+      if (sortOrder === 'asc') {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedUrls = filteredUrls.slice(startIndex, endIndex);
+
+    return Promise.resolve({
+      shortUrls: paginatedUrls,
+      total: filteredUrls.length,
+    });
   }
 
   async save(shortUrl: ShortUrl): Promise<void> {

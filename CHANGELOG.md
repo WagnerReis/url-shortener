@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.11](https://github.com/WagnerReis/url-shortener/compare/v0.2.10...v0.2.11) (2025-07-20)
+
+
+### Features
+
+* **auth:** add error handling and HashingError to sign-in usecase ([306b002](https://github.com/WagnerReis/url-shortener/commit/306b0024f07643ac6012d883b0f94e59a3f8aaa5))
+* **docs:** add Pino to list of technologies in README ([53a4c8a](https://github.com/WagnerReis/url-shortener/commit/53a4c8af67b8042f7faf7e4de58f21ecbda49ed3))
+* **shortener:** add pagination to list short URLs endpoint ([d1b0817](https://github.com/WagnerReis/url-shortener/commit/d1b0817d3f7775cc6360ad40145ad62f3cabc8a5))
+* **users:** add error handling and tests for CreateUserUseCase ([3f5fd57](https://github.com/WagnerReis/url-shortener/commit/3f5fd57fdd2f94bae99633fd59fc1fc74272c1c2))
+
+### [0.2.10](https://github.com/WagnerReis/url-shortener/compare/v0.2.9...v0.2.10) (2025-07-19)
+
+### [0.2.9](https://github.com/WagnerReis/url-shortener/compare/v0.2.8...v0.2.9) (2025-07-19)
+
+
+### Features
+
+* **logger:** add pino logger module and integrate with application ([b48d4f5](https://github.com/WagnerReis/url-shortener/commit/b48d4f5284eba1854ae786f8ba38c8c87749eac0))
+
 ### [0.2.8](https://github.com/WagnerReis/url-shortener/compare/v0.2.7...v0.2.8) (2025-07-19)
 
 ### [0.2.7](https://github.com/WagnerReis/url-shortener/compare/v0.2.6...v0.2.7) (2025-07-19)

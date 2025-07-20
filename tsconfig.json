@@ -30,6 +30,12 @@
       "@app/cryptography/*": [
         "libs/cryptography/src/*"
       ],
+      "@app/logger": [
+        "libs/logger/src"
+      ],
+      "@app/logger/*": [
+        "libs/logger/src/*"
+      ],
       "@env/env": [
         "libs/env/src"
       ],

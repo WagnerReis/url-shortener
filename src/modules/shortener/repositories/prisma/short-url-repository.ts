@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@prisma-lib';
 import { ShortUrl } from '../../entities/short-url.entity';
 import { PrismaShortUrlMapper } from '../mappers/prisma-short-url.mapper';
-import { ShortUrlRepositoryInterface } from '../short-url-repository.interface';
+import {
+  PaginationOptions,
+  PaginationResult,
+  ShortUrlRepositoryInterface,
+} from '../short-url-repository.interface';
 
 @Injectable()
 export class PrismaShortUrlRepository implements ShortUrlRepositoryInterface {
@@ -22,6 +26,41 @@ export class PrismaShortUrlRepository implements ShortUrlRepositoryInterface {
       },
     });
     return shortUrls.map((shortUrl) => PrismaShortUrlMapper.toDomain(shortUrl));
+  }
+
+  async findByUserIdWithPagination(
+    userId: string,
+    options: PaginationOptions,
+  ): Promise<PaginationResult> {
+    const { page, limit, sortBy, sortOrder } = options;
+    const skip = (page - 1) * limit;
+
+    const [shortUrls, total] = await Promise.all([
+      this.prisma.shortUrl.findMany({
+        where: {
+          userId,
+          deletedAt: null,
+        },
+        skip,
+        take: limit,
+        orderBy: {
+          [sortBy]: sortOrder,
+        },
+      }),
+      this.prisma.shortUrl.count({
+        where: {
+          userId,
+          deletedAt: null,
+        },
+      }),
+    ]);
+
+    return {
+      shortUrls: shortUrls.map((shortUrl) =>
+        PrismaShortUrlMapper.toDomain(shortUrl),
+      ),
+      total,
+    };
   }
 
   async findByShortCode(shortCode: string): Promise<ShortUrl | null> {

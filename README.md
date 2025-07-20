@@ -2,7 +2,7 @@
 
 Um encurtador de URLs, seguro e extensível, desenvolvido com NestJS, Prisma e PostgreSQL. Permite criar, listar, atualizar, deletar (deleção lógica) e redirecionar URLs encurtadas, com suporte a autenticação JWT.
 
-## ✨ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Node.js**
 - **NestJS** (framework principal)
@@ -12,14 +12,33 @@ Um encurtador de URLs, seguro e extensível, desenvolvido com NestJS, Prisma e P
 - **JWT** (autenticação)
 - **Zod** (validação de dados)
 - **Swagger** (documentação automática)
+- **Pino** (logging)
 
-## 🏛️ Arquitetura
+## Arquitetura
 
 - **Modularização**: Separação clara entre módulos de autenticação, usuários e encurtador.
 - **Use Cases**: Lógica de negócio isolada em casos de uso.
 - **Repositórios**: Abstração de acesso a dados, facilitando troca de banco ou testes.
 - **Pipes e Filters**: Validação e tratamento global de exceções.
 - **Decorators e Guards**: Controle de autenticação e autorização.
+- **Functional Error Handling**: Tratamento de erros de forma limpa e legível.
+
+## Testes Unitários e E2E
+
+O projeto possui uma cobertura robusta de testes:
+
+- **Testes Unitários**: Cobrem os casos de uso (use cases), entidades, repositórios em memória e regras de negócio, garantindo que cada parte da lógica funcione isoladamente.
+- **Testes E2E**: Simulam o fluxo completo da aplicação, testando os endpoints HTTP, autenticação, criação/listagem/atualização/remoção de URLs, e integração com o banco de dados.
+- **Tecnologias**: Utiliza [Vitest](https://vitest.dev/) para testes unitários e E2E, além de mocks e repositórios em memória para cenários isolados.
+
+### Como rodar os testes
+
+```bash
+pnpm test          # Executa todos os testes unitários
+pnpm test:e2e      # Executa os testes end-to-end
+```
+
+Os testes E2E exigem um banco de dados configurado e as variáveis de ambiente corretas.
 
 ## Rodando com Docker
 
@@ -95,7 +114,7 @@ Acesse a documentação Swagger em: [http://localhost:3000/api/docs](http://loca
 ## Funcionalidades
 
 - Criar URL encurtada (com ou sem autenticação)
-- Listar URLs do usuário autenticado
+- Listar URLs do usuário autenticado, com paginação e e ordenação
 - Atualizar e deletar URLs (soft delete)
 - Redirecionamento por shortCode
 - Contador de cliques
