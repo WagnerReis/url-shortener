@@ -23,6 +23,23 @@ Um encurtador de URLs, seguro e extensível, desenvolvido com NestJS, Prisma e P
 - **Decorators e Guards**: Controle de autenticação e autorização.
 - **Functional Error Handling**: Tratamento de erros de forma limpa e legível.
 
+## Testes Unitários e E2E
+
+O projeto possui uma cobertura robusta de testes:
+
+- **Testes Unitários**: Cobrem os casos de uso (use cases), entidades, repositórios em memória e regras de negócio, garantindo que cada parte da lógica funcione isoladamente.
+- **Testes E2E**: Simulam o fluxo completo da aplicação, testando os endpoints HTTP, autenticação, criação/listagem/atualização/remoção de URLs, e integração com o banco de dados.
+- **Tecnologias**: Utiliza [Vitest](https://vitest.dev/) para testes unitários e E2E, além de mocks e repositórios em memória para cenários isolados.
+
+### Como rodar os testes
+
+```bash
+pnpm test          # Executa todos os testes unitários
+pnpm test:e2e      # Executa os testes end-to-end
+```
+
+Os testes E2E exigem um banco de dados configurado e as variáveis de ambiente corretas.
+
 ## Rodando com Docker
 
 1. Copie o arquivo `.env.docker.example` para `.env` e ajuste as variáveis se necessário.
