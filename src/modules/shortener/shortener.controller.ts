@@ -31,7 +31,6 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtOptionalAuthGuard } from '../auth/guards/jwt-optional-auth.guard';
 import { ShortererPresenter } from './presenters/shorterer-presenter';
-import { buildShortUrl } from './presenters/url-builder';
 import { CreateShortUrlUseCase } from './usecases/create-short-url.usecase';
 import { DeleteShortUrlUseCase } from './usecases/delete-short-url.usecase';
 import { MaxRetriesGenerateCodeError } from './usecases/errors/max-retries-generate-code.error';
@@ -126,21 +125,10 @@ export class ShortenerController {
 
     const { shortUrl } = result.value;
 
-    const shortUrlFull = buildShortUrl(
-      shortUrl.shortCode,
-      req,
-      this.envService,
-    );
-
     return {
       success: true,
       message: 'Url created successfully',
-      data: {
-        shortUrl: shortUrlFull,
-        shortCode: shortUrl.shortCode,
-        originalUrl: shortUrl.originalUrl,
-        createdAt: shortUrl.createdAt,
-      },
+      data: ShortererPresenter.toHTTP(shortUrl, req, this.envService),
     };
   }
 
