@@ -11,6 +11,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import {
   ApiBody,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -44,6 +46,15 @@ type CreateUrlBody = z.infer<typeof createUrlBodySchema>;
 
 const updateUrlBodySchema = createUrlBodySchema;
 type UpdateUrlBody = CreateUrlBody;
+
+const listUrlsQuerySchema = z.object({
+  page: z.coerce.number().min(1).default(1),
+  limit: z.coerce.number().min(1).max(100).default(10),
+  sortBy: z.enum(['createdAt', 'updatedAt', 'clickCount']).default('createdAt'),
+  sortOrder: z.enum(['asc', 'desc']).default('desc'),
+});
+
+type ListUrlsQuery = z.infer<typeof listUrlsQuerySchema>;
 
 @ApiTags('shortener')
 @ApiBearerAuth('accessToken')
@@ -136,15 +147,49 @@ export class ShortenerController {
   @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOperation({
-    summary: 'Lista todas as URLs encurtadas do usuário autenticado',
+    summary: 'Lista URLs encurtadas do usuário autenticado com paginação',
+  })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    description: 'Número da página (padrão: 1)',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Quantidade de itens por página (padrão: 10, máximo: 100)',
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'sortBy',
+    required: false,
+    description: 'Campo para ordenação',
+    enum: ['createdAt', 'updatedAt', 'clickCount'],
+    example: 'createdAt',
+  })
+  @ApiQuery({
+    name: 'sortOrder',
+    required: false,
+    description: 'Ordem da ordenação',
+    enum: ['asc', 'desc'],
+    example: 'desc',
   })
   @ApiResponse({
     status: 200,
-    description: 'Lista de URLs encurtadas',
+    description: 'Lista de URLs encurtadas com metadados de paginação',
     schema: {
       example: {
         success: true,
         message: 'Urls fetched successfully',
+        pagination: {
+          page: 1,
+          limit: 10,
+          total: 25,
+          totalPages: 3,
+          hasNext: true,
+          hasPrev: false,
+        },
         data: [
           {
             id: 'a1ae1ce4-6d10-4ca1-8cf1-8207529a5123',
@@ -161,9 +206,27 @@ export class ShortenerController {
       },
     },
   })
-  async list(@CurrentUser('sub') userId: string, @Req() req: Request) {
-    this.logger.log(`Listing short urls for user ${userId}`);
-    const result = await this.listShortUrlsUseCase.execute({ userId });
+  async list(
+    @CurrentUser('sub') userId: string,
+    @Req() req: Request,
+    @Query(new ZodValidationPipe(listUrlsQuerySchema)) query: ListUrlsQuery,
+  ) {
+    const { page, limit, sortBy, sortOrder } = query;
+
+    this.logger.log(`Listing short urls for user ${userId}`, {
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+    });
+
+    const result = await this.listShortUrlsUseCase.execute({
+      userId,
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+    });
 
     if (result.isLeft()) {
       const error = result.value;
@@ -171,11 +234,12 @@ export class ShortenerController {
       throw new BadRequestException(error);
     }
 
-    const { shortUrls } = result.value;
+    const { shortUrls, pagination } = result.value;
 
     return {
       success: true,
       message: 'Urls fetched successfully',
+      pagination,
       data: shortUrls.map((url) =>
         ShortererPresenter.toHTTP(url, req, this.envService),
       ),

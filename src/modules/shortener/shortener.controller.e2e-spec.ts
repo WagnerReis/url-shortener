@@ -64,7 +64,40 @@ describe('Shortener (E2E)', () => {
     shortCode = response.body.data.shortCode;
   });
 
-  it('[GET] /shortener - should list all short urls', async () => {
+  it('[GET] /shortener - should list all short urls with pagination', async () => {
+    const urls = [
+      'https://www.example1.com',
+      'https://www.example2.com',
+      'https://www.example3.com',
+    ];
+
+    for (const url of urls) {
+      await request(app.getHttpServer())
+        .post('/shortener')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ url });
+    }
+
+    const response = await request(app.getHttpServer())
+      .get('/shortener?page=1&limit=2&sortBy=createdAt&sortOrder=desc')
+      .set('Authorization', `Bearer ${accessToken}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(Array.isArray(response.body.data)).toBe(true);
+    expect(response.body.data).toHaveLength(2);
+    expect(response.body.pagination).toBeDefined();
+    expect(response.body.pagination).toEqual({
+      page: 1,
+      limit: 2,
+      total: expect.any(Number),
+      totalPages: expect.any(Number),
+      hasNext: expect.any(Boolean),
+      hasPrev: expect.any(Boolean),
+    });
+  });
+
+  it('[GET] /shortener - should handle pagination with default values', async () => {
     const response = await request(app.getHttpServer())
       .get('/shortener')
       .set('Authorization', `Bearer ${accessToken}`);
@@ -72,7 +105,43 @@ describe('Shortener (E2E)', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.success).toBe(true);
     expect(Array.isArray(response.body.data)).toBe(true);
-    expect(response.body.data[0].shortCode).toBe(shortCode);
+    expect(response.body.pagination).toBeDefined();
+    expect(response.body.pagination.page).toBe(1);
+    expect(response.body.pagination.limit).toBe(10);
+  });
+
+  it('[GET] /shortener - should handle empty results with pagination', async () => {
+    const newUser = await prisma.user.create({
+      data: {
+        name: 'Empty User',
+        email: 'empty@example.com',
+        password: await hash('password123', 8),
+      },
+    });
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: 'empty@example.com', password: 'password123' });
+
+    const newAccessToken = loginResponse.body.accessToken;
+
+    const response = await request(app.getHttpServer())
+      .get('/shortener?page=1&limit=10')
+      .set('Authorization', `Bearer ${newAccessToken}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toHaveLength(0);
+    expect(response.body.pagination).toEqual({
+      page: 1,
+      limit: 10,
+      total: 0,
+      totalPages: 0,
+      hasNext: false,
+      hasPrev: false,
+    });
+
+    await prisma.user.delete({ where: { id: newUser.id } });
   });
 
   it('[PATCH] /shortener/:shortCode - should update the original url', async () => {

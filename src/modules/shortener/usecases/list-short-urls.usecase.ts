@@ -6,12 +6,26 @@ import { ShortUrlRepositoryInterface } from '../repositories/short-url-repositor
 
 interface ListShortUrlsUseCaseRequest {
   userId: string;
+  page: number;
+  limit: number;
+  sortBy: 'createdAt' | 'updatedAt' | 'clickCount';
+  sortOrder: 'asc' | 'desc';
+}
+
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
 }
 
 type ListShortUrlsUseCaseResponse = Either<
   [],
   {
     shortUrls: ShortUrl[];
+    pagination: PaginationMeta;
   }
 >;
 
@@ -24,13 +38,42 @@ export class ListShortUrlsUseCase {
 
   async execute({
     userId,
+    page,
+    limit,
+    sortBy,
+    sortOrder,
   }: ListShortUrlsUseCaseRequest): Promise<ListShortUrlsUseCaseResponse> {
-    this.logger.log('Listing short URLs');
+    this.logger.log('Listing short URLs with pagination', {
+      userId,
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+    });
 
-    const shortUrls = await this.shortUrlRepository.findByUserId(userId);
+    const { shortUrls, total } =
+      await this.shortUrlRepository.findByUserIdWithPagination(userId, {
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+      });
 
-    this.logger.debug(`${shortUrls.length} shortUrls found.`);
+    const totalPages = Math.ceil(total / limit);
+    const hasNext = page < totalPages;
+    const hasPrev = page > 1;
 
-    return right({ shortUrls });
+    const pagination: PaginationMeta = {
+      page,
+      limit,
+      total,
+      totalPages,
+      hasNext,
+      hasPrev,
+    };
+
+    this.logger.debug(`${shortUrls.length} shortUrls found for page ${page}`);
+
+    return right({ shortUrls, pagination });
   }
 }
