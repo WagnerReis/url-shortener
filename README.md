@@ -123,6 +123,8 @@ Acesse a documentação Swagger em: [http://localhost:3000/api/docs](http://loca
 
 ## Funcionalidades que podem ser adicionadas futuramente
 
+- Melhoria na arquitetura/estrutura do projeto
+- Transformar o projeto de monolito modular para monorepo
 - Expiração de URLs
 - Personalização do shortCode
 - Estatísticas detalhadas de acesso (geolocalização, navegador, etc)
