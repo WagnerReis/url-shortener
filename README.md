@@ -12,6 +12,7 @@ Um encurtador de URLs, seguro e extensível, desenvolvido com NestJS, Prisma e P
 - **JWT** (autenticação)
 - **Zod** (validação de dados)
 - **Swagger** (documentação automática)
+- **Pino** (logging)
 
 ## Arquitetura
 
