@@ -1,4 +1,5 @@
 import { Either, left, right } from '@/core/either';
+import { DatabaseError } from '@/core/errors/database.error';
 import { Injectable } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
 import { ShortUrl } from '../entities/short-url.entity';
@@ -12,7 +13,7 @@ interface CreateShortUrlUseCaseRequest {
 }
 
 type CreateShortUrlUseCaseResponse = Either<
-  MaxRetriesGenerateCodeError,
+  MaxRetriesGenerateCodeError | DatabaseError,
   {
     shortUrl: ShortUrl;
   }
@@ -29,30 +30,35 @@ export class CreateShortUrlUseCase {
   async execute(
     data: CreateShortUrlUseCaseRequest,
   ): Promise<CreateShortUrlUseCaseResponse> {
-    const { originalUrl, userId } = data;
+    try {
+      const { originalUrl, userId } = data;
 
-    this.logger.log('Generating short url...');
+      this.logger.log('Generating short url...');
 
-    const shortCodeResult = await this.generateShortCodeUseCase.execute();
+      const shortCodeResult = await this.generateShortCodeUseCase.execute();
 
-    if (shortCodeResult.isLeft()) {
-      return left(shortCodeResult.value);
+      if (shortCodeResult.isLeft()) {
+        return left(shortCodeResult.value);
+      }
+
+      const { shortCode } = shortCodeResult.value;
+
+      const shortUrl = ShortUrl.create({
+        originalUrl,
+        userId,
+        shortCode,
+      });
+
+      await this.shortUrlsRepository.create(shortUrl);
+
+      this.logger.log('Short url created successfully');
+
+      return right({
+        shortUrl,
+      });
+    } catch (error) {
+      this.logger.error('Error creating short url', error);
+      return left(new DatabaseError('Error creating short url', error));
     }
-
-    const { shortCode } = shortCodeResult.value;
-
-    const shortUrl = ShortUrl.create({
-      originalUrl,
-      userId,
-      shortCode,
-    });
-
-    await this.shortUrlsRepository.create(shortUrl);
-
-    this.logger.log('Short url created successfully');
-
-    return right({
-      shortUrl,
-    });
   }
 }
